@@ -130,22 +130,26 @@ class linked_list:
         elif index == self.len:
             self.append_node(value)
         else:
-            prev, new_node = self.get_node(index-1), Node(value)
+            prev, new_node = self.get_node(index-1), self.Node(value)
             new_node.next = prev.next
             prev.next = new_node
             self.len += 1
 
     """Puts the linked list in a reverse order"""
     def reverse(self):
+        arr = []
         if self.len <= 1:
+            cur = self.head
+            if cur != None:
+                arr.append(round(cur.data ** (1/2), 2))
             return
         else:
-            counter = 0
-            while counter < self.len-1:
+            for i in range(self.len):
                 cur = self.head
-                self.insert_node(self.len-counter, cur.data)
+                arr.insert(0, round(cur.data ** (1/2), 2))
+                self.insert_node(self.len-i, cur.data)
                 self.remove_head()
-                counter += 1
+            print(arr, self.len)
 
 
 
