@@ -1,9 +1,10 @@
-from time import sleep
 from double_linked_list import DoubleLinkedList
 from signly_linked_list import linked_list
 
 class Solution:
     def __init__(self):
+        self.sll = linked_list()
+        self.dll = DoubleLinkedList()
         self.selected_structure = None
         self.structures = ['Enlace simple', 'Enlace doble']
 
@@ -14,9 +15,9 @@ class Solution:
                     print(f'{i+1} - {self.structures[i]}')
                 seleccion = int(input('Seleccione el tipo de estructuracon la que le gustaria trabajar: '))
                 if seleccion == 1:
-                    self.selected_structure = linked_list()
+                    self.selected_structure = self.sll
                 elif seleccion == 2:
-                    self.selected_structure = DoubleLinkedList()
+                    self.selected_structure = self.dll
                 else:
                     continue
                 break
@@ -46,31 +47,22 @@ class Solution:
                         while True:
                             try:
                                 index = int(input('Indice del valor que desea consultar: '))
-                                if index > self.selected_structure.len or index < self.selected_structure.len:
+                                if index > self.selected_structure.len or index < 0:
                                     print('Inidce por fuera de la lista, ingrese nuevamente')
                                     continue
-                                self.selected_structure.get_node_value(index)
+                                print(self.selected_structure.get_node_value(index))
                                 break
                             except:
                                 print('Ingrese un valor numerico ')
                     elif seleccion == 4:
-                        while True:
-                            try:
-                                index = int(input('Indice del valor que desea actualizar: '))
-                                value = int(input('Valor que reemplazara al actual: '))
-                                if index > self.selected_structure.len or index < self.selected_structure.len:
-                                    print('Inidce por fuera de la lista, ingrese nuevamente')
-                                    continue
-                                self.selected_structure.update_value(value, index)
-                                break
-                            except:
-                                print('Debe entregar un valor numerico')
+                        self.actualizar_valor()
                     elif seleccion == 5:
                          self.selected_structure.reverse()
                     else:
                         print('Seleccione un valor de la lista')
                         print(menu)
                         continue
+                    self.selected_structure.print()
                     break
                 except:
                     print('Seleccione un valor numerico')
@@ -91,6 +83,35 @@ class Solution:
                 except:
                     print('Seleccione un valor del tablero')
 
+    def actualizar_valor(self):
+        while True:
+            try:
+                index = int(input('Indice del valor que desea actualizar: '))
+                if index > self.selected_structure.len or index < 0:
+                    print('Inidce por fuera de la lista, ingrese nuevamente')
+                    continue
+                if isinstance(self.selected_structure, DoubleLinkedList):
+                    print('''
+                    Desea actualizar el valor como el cuadrado del valor anterior?
+                        1 - Si
+                        2 - No
+                    ''')
+                    try:
+                        seleccion = int(input())
+                    except:
+                        print('Seleccione un valor de la lista')
+                    if seleccion == 1:
+                        self.cuadrado_anteior(index)
+                    break
+                try:
+                    value = int(input('Valor que reemplazara al actual: '))
+                except:
+                    print('Debe ser un valor numerico')
+                self.selected_structure.update_value(value, index)
+                break
+            except:
+                print('Debe entregar un valor numerico')
+
     def anadir_nodo(self):
         while True:
             try:
@@ -104,6 +125,9 @@ class Solution:
                     while True:
                         try:
                             data = int(input('Que valor numerico desea agregar: '))
+                            if self.repeated_value(data):
+                                print('Este valor ya existe en la lista, añada otro')
+                                continue
                             self.selected_structure.unshift_node(data)
                             break
                         except:
@@ -112,6 +136,9 @@ class Solution:
                     while True:
                         try:
                             data = int(input('Que valor numerico desea agregar: '))
+                            if self.repeated_value(data):
+                                print('Este valor ya existe en la lista, añada otro')
+                                continue
                             self.selected_structure.append_node(data)
                             break
                         except:
@@ -120,17 +147,24 @@ class Solution:
                     while True:
                         try:
                             index = int(input('A que indice numerico desea agregar: '))
-                            while True:
+                            if index < self.selected_structure.len and index > 0:
                                 try:
-                                    data = int(input('Que valor numerico desea agregar: '))
-                                    break
+                                    data = int(input('Que valor desea insertar? '))
+                                    if self.repeated_value(data):
+                                        print('Este valor ya existe en la lista, añada otro')
+                                        continue
                                 except:
-                                    print('Ingrese un valor numerico para añadir')
+                                    print('Ingrese un valor numerico')
+                            else:
+                                print('Agrege una posicion valida dentro de; rango')
+                                continue
                             self.selected_structure.insert_node(index, data)
                             break
                         except:
                             print('Debe ser un valor numerico')
-                self.selected_structure.print()
+                else:
+                    print('Seleccione un valor de la lista')
+                    continue
                 break
             except:
                 print('Seleccione un valor numerico')
@@ -161,7 +195,31 @@ class Solution:
                     print('Ingrese un valor del menu: ')
                     print(menu)
                     continue
-                self.selected_structure.print()
                 break
             except:
                 print('Seleccione un valor numerico')
+
+    def repeated_value(self, value):
+        cur = self.selected_structure.head
+        flag = False
+        while cur != None:
+            if cur.data == value:
+                flag = True
+                return flag
+            cur = cur.next
+        return flag
+
+    def cuadrado_anteior(self, index):
+        if index == 0:
+            self.selected_structure.head.data = 0
+            return
+        cur, c = self.selected_structure.head, 0
+        while c < index:
+            cur = cur.next
+            c += 1
+        prev = cur.prev
+        cur.data = prev.data ** 2
+    
+    
+
+
