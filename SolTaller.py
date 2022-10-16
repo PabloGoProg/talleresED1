@@ -1,19 +1,23 @@
 from double_linked_list import DoubleLinkedList
 from signly_linked_list import linked_list
+from colorama import *
 
 class Solution:
     def __init__(self):
         self.sll = linked_list()
         self.dll = DoubleLinkedList()
         self.selected_structure = None
-        self.structures = ['Enlace simple', 'Enlace doble']
+        self.structures = ['Listas simplemente enlazada', 'Listas doblemente enlazadas']
 
     def select_structure(self):
         while True:
             try:
-                for i in range(2):
-                    print(f'{i+1} - {self.structures[i]}')
-                seleccion = int(input('Seleccione el tipo de estructuracon la que le gustaria trabajar: '))
+                print('Seleccione el tipo de lista que desea utilizar dentro de las siguientes opciones:')
+                print(Fore.YELLOW + f'''
+                    1 - {self.structures[0]}
+                    2 - {self.structures[1]}
+                ''')
+                seleccion = int(input(Fore.WHITE + 'Seleccione el tipo de estructuracon la que le gustaria trabajar: '))
                 if seleccion == 1:
                     self.selected_structure = self.sll
                 elif seleccion == 2:
@@ -22,7 +26,7 @@ class Solution:
                     continue
                 break
             except:
-                print('Seleccione un valor numerico')
+                print(Fore.RED + 'Seleccione un valor numerico')
 
     def sub_menu(self):
         self.select_structure()
@@ -35,10 +39,10 @@ class Solution:
                     5 - Invertir toda la lista
                 '''
         while follow == 1:
-            print(menu)
+            print(Fore.YELLOW + menu)
             while True:
                 try:
-                    seleccion = int(input('Que accion desea realizar? '))
+                    seleccion = int(input(Fore.WHITE + 'Que accion desea realizar? '))
                     if seleccion == 1:
                         self.anadir_nodo()
                     elif seleccion == 2:
@@ -46,32 +50,33 @@ class Solution:
                     elif seleccion == 3:
                         while True:
                             try:
-                                index = int(input('Indice del valor que desea consultar: '))
+                                index = int(input(Fore.WHITE + 'Indice del valor que desea consultar: '))
                                 if index > self.selected_structure.len or index < 0:
-                                    print('Inidce por fuera de la lista, ingrese nuevamente')
+                                    print(Fore.RED + 'Inidce por fuera de la lista, ingrese nuevamente')
                                     continue
                                 print(self.selected_structure.get_node_value(index))
                                 break
                             except:
-                                print('Ingrese un valor numerico ')
+                                print(Fore.RED + 'Ingrese un valor numerico ')
                     elif seleccion == 4:
                         self.actualizar_valor()
                     elif seleccion == 5:
                          self.selected_structure.reverse()
                     else:
-                        print('Seleccione un valor de la lista')
-                        print(menu)
+                        print(Fore.RED + 'Seleccione un valor de la lista')
+                        print(Fore.YELLOW + menu)
                         continue
+                    print(Fore.GREEN + 'Actualmente la lista se encuentra así: ')
                     self.selected_structure.print()
                     break
                 except:
-                    print('Seleccione un valor numerico')
-            print('En caso de que quiera agregar mas opciones')
-            print('''
+                    print(Fore.RED + 'Seleccione un valor numerico')
+            print(Fore.YELLOW + 'En caso de que quiera agregar mas opciones')
+            print(Fore.YELLOW + '''
                 1 - Realizar otra accion
                 2 - Cambiar la estructura
                 Cualquier otro - Cerrar el programa
-            ''')
+            ''' + Fore.WHITE)
             while True:
                 try:
                     o = int(input(''))
@@ -81,93 +86,96 @@ class Solution:
                         follow = 0
                     break
                 except:
-                    print('Seleccione un valor del tablero')
+                    print(Fore.RED + 'Seleccione un valor del tablero')
 
     def actualizar_valor(self):
         while True:
             try:
-                index = int(input('Indice del valor que desea actualizar: '))
+                index = int(input(Fore.WHITE + 'Indice del valor que desea actualizar: '))
                 if index > self.selected_structure.len or index < 0:
-                    print('Inidce por fuera de la lista, ingrese nuevamente')
+                    print(Fore.RED + 'Inidce por fuera de la lista, ingrese nuevamente')
                     continue
                 if isinstance(self.selected_structure, DoubleLinkedList):
-                    print('''
+                    print(Fore.YELLOW + '''
                     Desea actualizar el valor como el cuadrado del valor anterior?
                         1 - Si
                         2 - No
                     ''')
                     try:
-                        seleccion = int(input())
+                        seleccion = int(input(Fore.WHITE))
                     except:
-                        print('Seleccione un valor de la lista')
+                        print(Fore.RED + 'Seleccione un valor de la lista')
                     if seleccion == 1:
                         self.cuadrado_anteior(index)
-                    break
+                        break
                 try:
-                    value = int(input('Valor que reemplazara al actual: '))
+                    value = int(input(Fore.WHITE + 'Valor que reemplazara al actual: '))
                 except:
-                    print('Debe ser un valor numerico')
+                    print(Fore.RED + 'Debe ser un valor numerico')
                 self.selected_structure.update_value(value, index)
                 break
             except:
-                print('Debe entregar un valor numerico')
+                print(Fore.RED + 'Debe entregar un valor numerico')
 
+    '''
+    Define las posibilidades para añadir valores dentro de una lista
+    '''
     def anadir_nodo(self):
         while True:
             try:
-                print('''
+                print(Fore.YELLOW + '''
                     1 - Al inicio
                     2 - Al final
                     3 - En una posición específica
                 ''')
-                method = int(input('Que methodo desea usar? '))
+                method = int(input(Fore.WHITE + 'Que methodo desea usar? '))
                 if method == 1:
                     while True:
                         try:
-                            data = int(input('Que valor numerico desea agregar: '))
+                            data = int(input(Fore.WHITE + 'Que valor numerico desea agregar: '))
                             if self.repeated_value(data):
-                                print('Este valor ya existe en la lista, añada otro')
+                                print(Fore.RED + 'Este valor ya existe en la lista, añada otro')
                                 continue
                             self.selected_structure.unshift_node(data)
                             break
                         except:
-                            print('Debe ser un valor numerico')
+                            print(Fore.RED + 'Debe ser un valor numerico')
                 elif method == 2:
                     while True:
                         try:
-                            data = int(input('Que valor numerico desea agregar: '))
+                            data = int(input(Fore.WHITE + 'Que valor numerico desea agregar: '))
                             if self.repeated_value(data):
-                                print('Este valor ya existe en la lista, añada otro')
+                                print(Fore.RED + 'Este valor ya existe en la lista, añada otro')
                                 continue
                             self.selected_structure.append_node(data)
                             break
                         except:
-                            print('Debe ser un valor numerico')
+                            print(Fore.RED + 'Debe ser un valor numerico')
                 elif method == 3:
                     while True:
                         try:
-                            index = int(input('A que indice numerico desea agregar: '))
-                            if index < self.selected_structure.len and index > 0:
+                            index = int(input(Fore.WHITE + 'A que indice numerico desea agregar: '))
+                            if index <= self.selected_structure.len and index >= 0:
                                 try:
-                                    data = int(input('Que valor desea insertar? '))
+                                    data = int(input(Fore.WHITE + 'Que valor desea insertar? '))
                                     if self.repeated_value(data):
-                                        print('Este valor ya existe en la lista, añada otro')
+                                        print(Fore.RED + 'Este valor ya existe en la lista, añada otro')
                                         continue
                                 except:
-                                    print('Ingrese un valor numerico')
+                                    print(Fore.RED + 'Ingrese un valor numerico')
                             else:
-                                print('Agrege una posicion valida dentro de; rango')
+                                print(Fore.RED + 'Agrege una posicion valida dentro de; rango')
                                 continue
                             self.selected_structure.insert_node(index, data)
                             break
                         except:
-                            print('Debe ser un valor numerico')
+                            print(Fore.RED + 'Debe ser un valor numerico')
                 else:
-                    print('Seleccione un valor de la lista')
+                    print(Fore.RED + 'Seleccione un valor de la lista')
                     continue
                 break
             except:
-                print('Seleccione un valor numerico')
+                print(Fore.RED + 'Seleccione un valor numerico')
             
     def eliminar_nodo(self):
         menu = '''
@@ -175,10 +183,10 @@ class Solution:
                     2 - Al final
                     3 - En una posición específica
                 '''
-        print(menu)
+        print(Fore.YELLOW + menu)
         while True:
             try:
-                method = int(input('Que methodo desea usar? '))
+                method = int(input(Fore.WHITE + 'Que methodo desea usar? '))
                 if method == 1:
                     self.selected_structure.remove_head()
                 elif method == 2:
@@ -186,18 +194,18 @@ class Solution:
                 elif method == 3:
                     while True:
                         try:
-                            index = int(input('Indice del valor que desee eliminar: '))
+                            index = int(input(Fore.WHITE + 'Indice del valor que desee eliminar: '))
                             self.selected_structure.remove_by_index(index)
                             break
                         except:
-                            print('Seleccione un valor numerico')
+                            print(Fore.RED + 'Seleccione un valor numerico')
                 else:
-                    print('Ingrese un valor del menu: ')
-                    print(menu)
+                    print(Fore.RED + 'Ingrese un valor del menu: ')
+                    print(Fore.YELLOW + menu)
                     continue
                 break
             except:
-                print('Seleccione un valor numerico')
+                print(Fore.RED + 'Seleccione un valor numerico')
 
     def repeated_value(self, value):
         cur = self.selected_structure.head
