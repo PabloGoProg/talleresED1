@@ -1,4 +1,4 @@
-from tokenize import Number
+1
 from SolTaller import Solution
 from double_linked_list import DoubleLinkedList
 from signly_linked_list import linked_list
