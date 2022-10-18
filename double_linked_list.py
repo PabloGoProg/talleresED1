@@ -161,16 +161,22 @@ class DoubleLinkedList:
     Puts the list in reverse order
     '''
     def reverse(self):
-        arr = []
         if self.len <= 1:
-            cur = self.head
-            if cur != None:
-                arr.append(round(cur.data ** (1/2), 2))
             return
         for i in range(self.len):
             cur = self.head
-            arr.insert(0, round(cur.data ** (1/2), 2))
             self.insert_node(self.len-i, cur.data)
             self.remove_head()
-        print(arr, self.len)
+
+    def reverse_raiz(self):
+        if self.len <= 1:
+            cur = self.head
+            if cur != None:
+                cur.data = round(cur.data ** (1/2), 2)
+            return
+        for i in range(self.len):
+            cur = self.head
+            cur.data = round(cur.data ** (1/2), 2)
+            self.insert_node(self.len-i, cur.data)
+            self.remove_head()
 
