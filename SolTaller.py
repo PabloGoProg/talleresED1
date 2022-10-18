@@ -51,17 +51,36 @@ class Solution:
                         while True:
                             try:
                                 index = int(input(Fore.WHITE + 'Indice del valor que desea consultar: '))
-                                if index > self.selected_structure.len or index < 0:
+                                if index-1 > self.selected_structure.len or index-1 < 0:
                                     print(Fore.RED + 'Inidce por fuera de la lista, ingrese nuevamente')
                                     continue
-                                print(self.selected_structure.get_node_value(index))
+                                print(self.selected_structure.get_node_value(index-1))
                                 break
                             except:
                                 print(Fore.RED + 'Ingrese un valor numerico ')
                     elif seleccion == 4:
                         self.actualizar_valor()
                     elif seleccion == 5:
-                         self.selected_structure.reverse()
+                        while True:
+                            try:
+                                print(Fore.YELLOW + '''
+                                1 - Reverse comun
+                                2 - Reverse con raices
+                                ''')
+                                try:
+                                    seleccion = int(input(Fore.WHITE + ''))
+                                except:
+                                    print(Fore.RED + 'Debe entregar un valor numerico')
+                                if seleccion == 1:
+                                    self.selected_structure.reverse()
+                                elif seleccion == 2:
+                                    self.selected_structure.reverse_raiz()
+                                else:
+                                    print(Fore.RED + 'Debe Seleccionar un valo de la lista')
+                                    continue
+                                break
+                            except:
+                                print(Fore.RED + "Debe ingresar un valor numerico")
                     else:
                         print(Fore.RED + 'Seleccione un valor de la lista')
                         print(Fore.YELLOW + menu)
@@ -92,7 +111,7 @@ class Solution:
         while True:
             try:
                 index = int(input(Fore.WHITE + 'Indice del valor que desea actualizar: '))
-                if index > self.selected_structure.len or index < 0:
+                if index-1 > self.selected_structure.len or index-1 < 0:
                     print(Fore.RED + 'Inidce por fuera de la lista, ingrese nuevamente')
                     continue
                 if isinstance(self.selected_structure, DoubleLinkedList):
@@ -106,13 +125,13 @@ class Solution:
                     except:
                         print(Fore.RED + 'Seleccione un valor de la lista')
                     if seleccion == 1:
-                        self.cuadrado_anteior(index)
+                        self.cuadrado_anteior(index-1)
                         break
                 try:
                     value = int(input(Fore.WHITE + 'Valor que reemplazara al actual: '))
                 except:
                     print(Fore.RED + 'Debe ser un valor numerico')
-                self.selected_structure.update_value(value, index)
+                self.selected_structure.update_value(value, index-1)
                 break
             except:
                 print(Fore.RED + 'Debe entregar un valor numerico')
@@ -155,7 +174,7 @@ class Solution:
                     while True:
                         try:
                             index = int(input(Fore.WHITE + 'A que indice numerico desea agregar: '))
-                            if index <= self.selected_structure.len and index >= 0:
+                            if index-1 <= self.selected_structure.len and index-1 >= 0:
                                 try:
                                     data = int(input(Fore.WHITE + 'Que valor desea insertar? '))
                                     if self.repeated_value(data):
@@ -166,7 +185,7 @@ class Solution:
                             else:
                                 print(Fore.RED + 'Agrege una posicion valida dentro de; rango')
                                 continue
-                            self.selected_structure.insert_node(index, data)
+                            self.selected_structure.insert_node(index-1, data)
                             break
                         except:
                             print(Fore.RED + 'Debe ser un valor numerico')
@@ -195,7 +214,10 @@ class Solution:
                     while True:
                         try:
                             index = int(input(Fore.WHITE + 'Indice del valor que desee eliminar: '))
-                            self.selected_structure.remove_by_index(index)
+                            if index-1 < 0 or index-1 > self.selected_structure.len:
+                                print(Fore.RED + 'El indice esta por fuera de la lista, seleccione nuevamente')
+                                continue
+                            self.selected_structure.remove_by_index(index-1)
                             break
                         except:
                             print(Fore.RED + 'Seleccione un valor numerico')
@@ -227,7 +249,6 @@ class Solution:
             c += 1
         prev = cur.prev
         cur.data = prev.data ** 2
-    
     
 
 
