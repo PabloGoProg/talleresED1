@@ -63,9 +63,10 @@ class Solution:
                     elif seleccion == 5:
                         while True:
                             try:
-                                print(Fore.YELLOW + '''
-                                1 - Reverse comun
-                                2 - Reverse con raices
+                                print(Fore.YELLOW + 
+                                '''
+                        1 - Reverse comun
+                        2 - Reverse con raices
                                 ''')
                                 try:
                                     seleccion = int(input(Fore.WHITE + ''))
@@ -91,10 +92,11 @@ class Solution:
                 except:
                     print(Fore.RED + 'Seleccione un valor numerico')
             print(Fore.YELLOW + 'En caso de que quiera agregar mas opciones')
-            print(Fore.YELLOW + '''
-                1 - Realizar otra accion
-                2 - Cambiar la estructura
-                Cualquier otro - Cerrar el programa
+            print(Fore.YELLOW + 
+            '''
+                    1 - Realizar otra accion
+                    2 - Cambiar la estructura
+                    Cualquier otro - Cerrar el programa
             ''' + Fore.WHITE)
             while True:
                 try:
@@ -115,7 +117,8 @@ class Solution:
                     print(Fore.RED + 'Inidce por fuera de la lista, ingrese nuevamente')
                     continue
                 if isinstance(self.selected_structure, DoubleLinkedList):
-                    print(Fore.YELLOW + '''
+                    print(Fore.YELLOW + 
+                    '''
                     Desea actualizar el valor como el cuadrado del valor anterior?
                         1 - Si
                         2 - No
@@ -142,7 +145,8 @@ class Solution:
     def anadir_nodo(self):
         while True:
             try:
-                print(Fore.YELLOW + '''
+                print(Fore.YELLOW + 
+                '''
                     1 - Al inicio
                     2 - Al final
                     3 - En una posición específica
@@ -243,12 +247,8 @@ class Solution:
         if index == 0:
             self.selected_structure.head.data = 0
             return
-        cur, c = self.selected_structure.head, 0
-        while c < index:
-            cur = cur.next
-            c += 1
-        prev = cur.prev
-        cur.data = prev.data ** 2
+        prev = self.selected_structure.get_node(index-1)
+        self.selected_structure.update_value(prev.data ** 2, index)
     
 
 
